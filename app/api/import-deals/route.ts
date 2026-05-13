@@ -42,12 +42,43 @@ export async function GET() {
       );
     }
 
-    const deals = items.slice(0, 20).map((item: any) => ({
-      title: item.title || item.pageTitle || "Golf Deal",
-      description: item.text?.slice(0, 250) || item.description || "Golf discount",
-      affiliate_link: item.url || item.loadedUrl || "https://example.com",
-      discount: "Sale",
-    }));
+    const deals = items
+      .filter((item: any) => {
+        const url = item.url || item.loadedUrl;
+
+        return (
+          url &&
+          typeof url === "string" &&
+          url.startsWith("https://") &&
+          !url.includes("#") &&
+          !url.startsWith("mailto:") &&
+          !url.startsWith("tel:")
+        );
+      })
+      .slice(0, 20)
+      .map((item: any) => {
+        const url = item.url || item.loadedUrl;
+
+        return {
+          title: item.title || item.pageTitle || "Golf Deal",
+          description:
+            item.text?.slice(0, 250) ||
+            item.description ||
+            "Golf discount",
+          affiliate_link: url,
+          discount: "Sale",
+          category: "general",
+        };
+      });
+
+    if (deals.length === 0) {
+      return NextResponse.json(
+        {
+          error: "No valid deal URLs found in Apify dataset",
+        },
+        { status: 400 }
+      );
+    }
 
     const { error } = await supabase.from("deals").insert(deals);
 
