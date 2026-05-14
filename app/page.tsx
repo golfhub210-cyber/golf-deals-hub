@@ -43,7 +43,16 @@ export default function Home() {
       <section style={{ padding: "60px 40px", maxWidth: 1200, margin: "0 auto" }}>
         <nav style={{ display: "flex", justifyContent: "space-between", marginBottom: 70 }}>
           <h2>⛳ Golf Deals Hub</h2>
-          <a href="/admin" style={{ color: "#9eff9e" }}>Admin</a>
+
+          <div style={{ display: "flex", gap: 20 }}>
+            <a href="/about" style={navLink}>About</a>
+            <a href="/contact" style={navLink}>Contact</a>
+            <a href="/privacy-policy" style={navLink}>Privacy</a>
+            <a href="/terms" style={navLink}>Terms</a>
+            <a href="/admin/review" style={{ color: "#9eff9e" }}>
+              Admin
+            </a>
+          </div>
         </nav>
 
         <div style={{ maxWidth: 760 }}>
@@ -71,6 +80,7 @@ export default function Home() {
       <section style={newsletterBox}>
         <div>
           <h2>📧 Get weekly golf deals</h2>
+
           <p style={{ color: "#cbd5cb" }}>
             Join the list and get the best golf discounts sent to your inbox.
           </p>
@@ -92,10 +102,14 @@ export default function Home() {
       </section>
 
       <section id="deals" style={{ padding: "40px", maxWidth: 1200, margin: "0 auto" }}>
-        <h2 style={{ fontSize: 34, marginBottom: 25 }}>🔥 Approved Weekly Deals</h2>
+        <h2 style={{ fontSize: 34, marginBottom: 25 }}>
+          🔥 Approved Weekly Deals
+        </h2>
 
         {deals.length === 0 && (
-          <p style={{ color: "#cbd5cb" }}>No active deals yet. Approve deals in the admin dashboard.</p>
+          <p style={{ color: "#cbd5cb" }}>
+            No active deals yet. Approve deals in the admin dashboard.
+          </p>
         )}
 
         <div style={grid}>
@@ -103,26 +117,69 @@ export default function Home() {
             <div key={deal.id} style={card}>
               <p style={badge}>{deal.category || "deal"}</p>
 
-              <h3 style={{ fontSize: 24, marginBottom: 12 }}>{deal.title}</h3>
+              <h3 style={{ fontSize: 24, marginBottom: 12 }}>
+                {deal.title}
+              </h3>
 
               <p style={{ color: "#cbd5cb", minHeight: 70 }}>
                 {deal.description}
               </p>
 
-              <strong style={{ color: "#9eff9e", display: "block", marginBottom: 20 }}>
+              <strong
+                style={{
+                  color: "#9eff9e",
+                  display: "block",
+                  marginBottom: 20,
+                }}
+              >
                 {deal.discount}
               </strong>
 
-              <a href={`/deals/${deal.id}`} style={primaryBtn}>
+              <a
+                href={deal.affiliate_link}
+                target="_blank"
+                rel="noopener noreferrer"
+                style={primaryBtn}
+              >
                 View Deal
               </a>
             </div>
           ))}
         </div>
       </section>
+
+      <footer style={footer}>
+        <div style={{ display: "flex", gap: 24, flexWrap: "wrap", justifyContent: "center" }}>
+          <a href="/about" style={footerLink}>About</a>
+          <a href="/contact" style={footerLink}>Contact</a>
+          <a href="/privacy-policy" style={footerLink}>Privacy Policy</a>
+          <a href="/terms" style={footerLink}>Terms & Conditions</a>
+        </div>
+
+        <p style={{ marginTop: 20, color: "#6b8b75" }}>
+          © 2026 Golf Deals Hub
+        </p>
+      </footer>
     </main>
   );
 }
+
+const navLink = {
+  color: "#cbd5cb",
+  textDecoration: "none",
+};
+
+const footerLink = {
+  color: "#cbd5cb",
+  textDecoration: "none",
+};
+
+const footer = {
+  borderTop: "1px solid #21402b",
+  marginTop: 80,
+  padding: "40px 20px",
+  textAlign: "center" as const,
+};
 
 const primaryBtn = {
   display: "inline-block",
