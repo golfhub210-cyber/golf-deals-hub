@@ -68,6 +68,7 @@ export async function GET() {
           affiliate_link: url,
           discount: "Sale",
           category: "general",
+          active: false,
         };
       });
 
@@ -95,6 +96,7 @@ export async function GET() {
     return NextResponse.json({
       success: true,
       imported: deals.length,
+      note: "Imported deals are inactive by default. Approve good deals by setting active = true.",
     });
   } catch (err: any) {
     return NextResponse.json(
